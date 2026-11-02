@@ -147,6 +147,41 @@ details>summary::-webkit-details-marker{display:none;}
 .tok{width:100%;height:44px;margin-top:12px;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ink);font:400 15px "Sora",system-ui,sans-serif;padding:0 12px;}
 .tok:focus{outline:2px solid var(--accent);outline-offset:1px;}
 .foot{text-align:center;margin:22px 0 4px;}
+@media (hover: hover){
+  .tab:not(.on):hover{color:var(--ink);}
+  .chip:hover,.ynav:hover:not(:disabled){border-color:var(--muted);}
+  .primary:hover,.save:hover{filter:brightness(1.08);}
+}
+@media (min-width: 900px){
+  .app{max-width:1080px;padding:28px 40px 40px;}
+  .brandrow{margin:4px 2px 22px;}
+  .brand{font-size:26px;}
+  .tabs{width:100%;max-width:520px;margin:0 auto;}
+  .tab{height:48px;font-size:17px;}
+  .idle,.play,.done{width:100%;max-width:640px;margin:0 auto;padding-top:9vh;}
+  .label{font-size:16px;}
+  .num{font-size:120px;}
+  .sub{font-size:17px;}
+  .note{font-size:14px;}
+  .primary{max-width:420px;height:64px;font-size:21px;}
+  .settings{max-width:420px;}
+  .hud{font-size:28px;}
+  .hud .dim{font-size:15px;}
+  .bar{height:8px;}
+  .q{font-size:110px;margin:8vh 0 4vh;}
+  .inp{font-size:60px;}
+  .hint{font-size:16px;}
+  .cmp div{font-size:17px;}
+  #prof.view.on{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 28px;align-items:start;padding-top:4vh;}
+  #prof .foot{grid-column:1 / -1;}
+  .fire svg{width:84px;height:106px;}
+  .card{padding:20px 22px;margin-top:18px;}
+  .card h2{font-size:18px;}
+  .cell .v{font-size:34px;}
+  .cell .k{font-size:13px;}
+  .year{gap:6px;}
+  .hhead,.day>summary{font-size:15px;}
+}
 @media (prefers-reduced-motion: reduce){.primary:active{transform:none;}}
 </style>
 </head>
@@ -226,6 +261,7 @@ details>summary::-webkit-details-marker{display:none;}
   </section>
 
   <section class="view" id="prof">
+    <div class="pcol">
     <div class="streak">
       <div class="fire cold" id="pFire">
         <svg viewBox="0 0 64 80" aria-hidden="true"><g class="fl"><path class="f1" d="M32 3C35 17 47 22 51 36C53 30 52 25 50 21C58 28 60 40 58 50C56 66 45 77 32 77C18 77 8 67 9 52C10 40 17 33 21 27C21 35 24 40 28 42C25 30 26 15 32 3Z"/><path class="f2" d="M32 24C35 35 45 41 45 54C45 65 39 72 32 72C24 72 18 66 18 57C18 50 22 45 26 41C27 47 29 51 32 52C30 45 29 34 32 24Z"/><path class="f3" d="M32 44C34 51 40 55 40 62C40 68 36 72 32 72C27 72 24 68 24 63C24 59 27 56 29 53C30 56 31 58 33 58C32 54 31 49 32 44Z"/><ellipse class="f4" cx="32" cy="66" rx="3.5" ry="4.5"/></g></svg>
@@ -238,6 +274,8 @@ details>summary::-webkit-details-marker{display:none;}
       <div class="yhead"><button class="ynav" id="yPrev" aria-label="Previous year">‹</button><h2 id="pYear">2026</h2><button class="ynav" id="yNext" aria-label="Next year">›</button></div>
       <div class="years" id="pYears"></div>
     </div>
+    </div>
+    <div class="pcol">
     <div class="card">
       <h2>Math (60s)</h2>
       <div class="grid">
@@ -281,6 +319,7 @@ details>summary::-webkit-details-marker{display:none;}
         <div class="row" style="margin-top:10px;justify-content:space-between"><button class="link" id="syncOut" style="margin:0;padding-left:0">Disconnect</button><button class="save" id="syncNowBtn">Sync now</button></div>
       </div>
       <p class="note" id="syncErr"></p>
+    </div>
     </div>
     <p class="note foot">Robomath. Built by Mi Robo.</p>
   </section>
@@ -733,7 +772,9 @@ details>summary::-webkit-details-marker{display:none;}
     return s;
   }
   function fitShow(n){
-    var size = Math.max(22, Math.min(56, Math.floor(340 / (n * 0.62))));
+    var w = Math.min(600, $('eShow').parentNode.clientWidth || 340);
+    var max = w > 500 ? 96 : 56;
+    var size = Math.max(22, Math.min(max, Math.floor(w / (n * 0.62))));
     $('eShow').style.fontSize = size + 'px';
   }
   function dots(n){ return new Array(n + 1).join('•'); }
